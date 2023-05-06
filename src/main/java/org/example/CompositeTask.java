@@ -1,22 +1,23 @@
 package org.example;
 
 import java.time.Duration;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CompositeTask extends TaskComponent {
     private String description;
-    private List<Task> tasks;
+    private List<TaskComponent> tasks = new LinkedList<>();
 
-    public CompositeTask(String description, List<Task> tasks) {
+    public CompositeTask(String description) {
         this.description = description;
-        this.tasks = tasks;
     }
 
-    public void addTask(Task task) {
+    public void addTask(TaskComponent task) {
         this.tasks.add(task);
+        task.setParent(this);
     }
 
-    public void removeTask(Task task) {
+    public void removeTask(TaskComponent task) {
         this.tasks.remove(task);
     }
 
@@ -24,16 +25,30 @@ public class CompositeTask extends TaskComponent {
     public Duration getDuration() {
         Duration componentDuration = Duration.ZERO;
 
-        for (Task task : this.tasks) componentDuration = componentDuration.plus(task.getDuration());
+        for (TaskComponent task : this.tasks) componentDuration = componentDuration.plus(task.getDuration());
 
         return componentDuration;
     }
 
+    public int countParents(TaskComponent task){
+        if(task.parent == null)
+            return 0;
+        else
+            return 1 + countParents(this.parent);
+    }
+
     @Override
     public void print() {
-        System.out.println(description);
+        int tabsQty = countParents(this);
+
+        System.out.println(description + "\t" + this.getDuration());
+
         for (int i = 0; i < this.tasks.size(); i++) {
-            System.out.print("\n" + (i+1) + ". ");
+            System.out.print("\n");
+            for(int j = 0; j < tabsQty; j++)
+                System.out.print("\t");
+
+            System.out.print((i+1) + ". ");
             this.tasks.get(i).print();
         }
     }
