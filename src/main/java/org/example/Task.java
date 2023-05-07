@@ -3,6 +3,7 @@ package org.example;
 import java.time.Duration;
 
 public class Task extends TaskComponent {
+    private Task parent = null;
     private String description;
     private Duration duration;
 
@@ -22,6 +23,9 @@ public class Task extends TaskComponent {
 
     @Override
     public void print() {
-        System.out.print(description + "\t" + duration.toString() + "\n");
+        System.out.print(description + " (" + duration.toString()
+                .substring(2)
+                .replaceAll("(\\d[HMS])(?!$)", "$1 ")
+                .toLowerCase() + ")\n");
     }
 }

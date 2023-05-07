@@ -34,21 +34,26 @@ public class CompositeTask extends TaskComponent {
         if(task.parent == null)
             return 0;
         else
-            return 1 + countParents(this.parent);
+            return 1 + countParents(task.parent);
     }
 
     @Override
     public void print() {
         int tabsQty = countParents(this);
 
-        System.out.println(description + "\t" + this.getDuration());
+        System.out.println(description + " (" + this.getDuration().toString()
+                .substring(2)
+                .replaceAll("(\\d[HMS])(?!$)", "$1 ")
+                .toLowerCase() + ")");
 
         for (int i = 0; i < this.tasks.size(); i++) {
             System.out.print("\n");
+
             for(int j = 0; j < tabsQty; j++)
                 System.out.print("\t");
 
-            System.out.print((i+1) + ". ");
+            System.out.print((i+1) + " ");
+
             this.tasks.get(i).print();
         }
     }
