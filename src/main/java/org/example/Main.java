@@ -1,8 +1,6 @@
 package org.example;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,7 +9,7 @@ public class Main {
         // Tarefa composta de SI702
         CompositeTask si702 = new CompositeTask("Estudar última aula de SI702");
 
-        si702.addTask(new Task("Reler conteúdo", Duration.ofHours(1)));
+        si702.addTask(new Task("Reler conteúdo", Duration.ofMinutes(35)));
         si702.addTask(new Task("Fazer lista", Duration.ofMinutes(30)));
         si702.addTask(new Task("Inserir pontos importantes no Anki", Duration.ofMinutes(15)));
 
